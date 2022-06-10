@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "680808000031",
+    "project_id": "avaliacao-2-ff78b",
+    "storage_bucket": "avaliacao-2-ff78b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:680808000031:android:967ceffa936763b15e832a",
+        "android_client_info": {
+          "package_name": "com.example.avaliacao_2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "680808000031-42gkmou4ein0rctns27j97kpsmbh2qds.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2b7SF3NUQ8XtS95qRGD9oixmM-bQiz0U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "680808000031-42gkmou4ein0rctns27j97kpsmbh2qds.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
