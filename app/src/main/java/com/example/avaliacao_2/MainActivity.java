@@ -61,29 +61,32 @@ public class MainActivity extends AppCompatActivity {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!validateFields()){
-                    return;
-                }else{
-                    progressBar.setVisibility(View.VISIBLE);
-                    mAuth.signInWithEmailAndPassword(loginEmailField_.getText().toString(), loginPasswdField_.getText().toString())
-                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if(task.isSuccessful()){
-                                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                                        if(user.isEmailVerified()){
-                                            Toast.makeText(MainActivity.this, "Usuario logado com sucesso!", Toast.LENGTH_LONG).show();
-                                        }else{
-                                            Toast.makeText(MainActivity.this, "Verifique a conta via email.", Toast.LENGTH_LONG).show();
-                                            user.sendEmailVerification();
-                                        }
-                                    }else{
-                                        Toast.makeText(MainActivity.this, task.getException().toString(), Toast.LENGTH_LONG).show();
-                                    }
-                                    progressBar.setVisibility(View.GONE);
-                                }
-                            });
-                }
+//                if(!validateFields()){
+//                    return;
+//                }else{
+//                    progressBar.setVisibility(View.VISIBLE);
+//                    mAuth.signInWithEmailAndPassword(loginEmailField_.getText().toString(), loginPasswdField_.getText().toString())
+//                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//                                @Override
+//                                public void onComplete(@NonNull Task<AuthResult> task) {
+//                                    if(task.isSuccessful()){
+//                                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//                                        if(user.isEmailVerified()){
+//                                            Toast.makeText(MainActivity.this, "Usuario logado com sucesso!", Toast.LENGTH_LONG).show();
+//
+//                                        }else{
+//                                            Toast.makeText(MainActivity.this, "Verifique a conta via email.", Toast.LENGTH_LONG).show();
+//                                            user.sendEmailVerification();
+//                                        }
+//                                    }else{
+//                                        Toast.makeText(MainActivity.this, task.getException().toString(), Toast.LENGTH_LONG).show();
+//                                    }
+//                                    progressBar.setVisibility(View.GONE);
+//                                }
+//                            });
+//                }
+                i = new Intent(MainActivity.this, SelectItems.class);
+                startActivity(i);
             }
         });
     }
