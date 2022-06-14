@@ -47,10 +47,9 @@
                 android:backgroundTint="#78DA7A"
                 android:gravity="center"
                 app:cornerRadius="8sp"
-                app:icon="@drawable/plus_thick"
+
                 app:iconGravity="textStart"
-                app:iconPadding="0dp"
-                app:iconTint="@color/black"
+
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

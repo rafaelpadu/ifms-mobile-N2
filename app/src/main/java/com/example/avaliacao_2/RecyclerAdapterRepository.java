@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,25 +16,22 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
+public class RecyclerAdapterRepository extends RecyclerView.Adapter<RecyclerAdapterRepository.MyViewHolder> {
     Context context;
     private ArrayList<Photo> photoArrayList;
 
-    public RecyclerAdapter(Context context, ArrayList<Photo> photoArrayList){
+    public RecyclerAdapterRepository(Context context, ArrayList<Photo> photoArrayList){
         this.context = context;
         this.photoArrayList = photoArrayList;
     }
+
     public class MyViewHolder extends RecyclerView.ViewHolder{
         TextView categories;
         ImageView imageView;
@@ -45,7 +41,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             super(itemView);
             view = itemView;
             addBtn = view.findViewById(R.id.addButton);
-            addBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.plus_thick, 0,0,0);
+            addBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.minus_thick, 0,0,0);
             addBtn.setPadding(60,5,0,0);
             addBtn.setTextColor(Color.BLACK);
         }
@@ -61,13 +57,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     @NonNull
     @Override
-    public RecyclerAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerAdapterRepository.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(context).inflate(R.layout.photo_item, parent, false);
-        return new MyViewHolder(itemView);
+        return new RecyclerAdapterRepository.MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerAdapterRepository.MyViewHolder holder, int position) {
         Photo photo = photoArrayList.get(position);
         holder.setImageView(photo.getPreviewURL());
         holder.setCategories(photo.getCategories());
@@ -78,6 +74,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             }
         });
     }
+
     @Override
     public int getItemCount() {
         return photoArrayList.size();
@@ -86,7 +83,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     public void showDialogView(Context context, Photo photo){
         AlertDialog.Builder confirmAdd = new AlertDialog.Builder(context);
         confirmAdd.setTitle("Atenção!");
-        confirmAdd.setMessage("Deseja adicionar o item?").setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+        confirmAdd.setMessage("Deseja remover o item?").setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -94,7 +91,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                 DatabaseReference myRef = mFirebaseDatabase.getReference();
                 FirebaseUser user = mAuth.getCurrentUser();
                 String userID = user.getUid();
-                myRef.child("photos").child(userID).child(String.valueOf(photo.getId())).setValue(photo);
+                myRef.child("photos").child(userID).child(String.valueOf(photo.getId())).removeValue();
                 Toast.makeText(context, "Imagem salva no banco de dados!", Toast.LENGTH_SHORT).show();
             }
         }).setNegativeButton("Não", null);

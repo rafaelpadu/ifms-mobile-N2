@@ -1,13 +1,17 @@
 package com.example.avaliacao_2;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -19,6 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -38,7 +43,7 @@ import java.util.ArrayList;
 public class SelectItems extends AppCompatActivity {
     SearchView searchViewInput;
     ProgressBar progressBarSelectItems;
-
+    Button repositorioBtn;
     private RequestQueue requestQueue;
     ArrayList<Photo> photosAPI;
     private RecyclerView recyclerView;
@@ -48,6 +53,11 @@ public class SelectItems extends AppCompatActivity {
         setContentView(R.layout.activity_select_items);
 
         searchViewInput = findViewById(R.id.searchViewInput);
+        MaterialShapeDrawable shapeDrawable = new MaterialShapeDrawable();
+        shapeDrawable.setFillColor(ContextCompat.getColorStateList(this, android.R.color.transparent));
+        shapeDrawable.setStroke(2.0f, ContextCompat.getColor(this,R.color.black));
+        ViewCompat.setBackground(searchViewInput, shapeDrawable);
+
         progressBarSelectItems = findViewById(R.id.progressBarSelectItems);
 
         recyclerView = findViewById(R.id.recyclerView);
@@ -56,7 +66,7 @@ public class SelectItems extends AppCompatActivity {
         requestQueue = VolleySingleton.getmInstance(this).getRequestQueue();
         progressBarSelectItems.setVisibility(View.GONE);
         FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mFirebaseDatabase.setPersistenceEnabled(true);
+
         searchViewInput.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -89,23 +99,15 @@ public class SelectItems extends AppCompatActivity {
                 return false;
             }
         });
+        repositorioBtn = findViewById(R.id.repositorioBtn);
 
-
-
-//        myRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                // Metodo para avisar no log que algo foi alterado no banco de dados desse usuario
-//                Log.d("Atenção", "onDataChange: Informação adicionado no BD: \n" +
-//                        dataSnapshot.getValue());
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError error) {
-//                // Falhou
-//                Log.w("Atenção", "Falha ao ler valor", error.toException());
-//            }
-//        });
+        repositorioBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(SelectItems.this, PersonalRepository.class);
+                startActivity(i);
+            }
+        });
     }
 
     private void getData(String url, String text) {
