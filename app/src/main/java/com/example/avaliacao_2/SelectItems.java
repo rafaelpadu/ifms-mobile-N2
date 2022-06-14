@@ -19,6 +19,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,7 +42,6 @@ public class SelectItems extends AppCompatActivity {
     private RequestQueue requestQueue;
     ArrayList<Photo> photosAPI;
     private RecyclerView recyclerView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,8 +54,9 @@ public class SelectItems extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         requestQueue = VolleySingleton.getmInstance(this).getRequestQueue();
-
         progressBarSelectItems.setVisibility(View.GONE);
+        FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mFirebaseDatabase.setPersistenceEnabled(true);
         searchViewInput.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -81,6 +89,23 @@ public class SelectItems extends AppCompatActivity {
                 return false;
             }
         });
+
+
+
+//        myRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                // Metodo para avisar no log que algo foi alterado no banco de dados desse usuario
+//                Log.d("Atenção", "onDataChange: Informação adicionado no BD: \n" +
+//                        dataSnapshot.getValue());
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError error) {
+//                // Falhou
+//                Log.w("Atenção", "Falha ao ler valor", error.toException());
+//            }
+//        });
     }
 
     private void getData(String url, String text) {
